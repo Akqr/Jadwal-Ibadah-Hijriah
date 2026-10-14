@@ -173,6 +173,9 @@ def pilih_tanggal(tahun_h, bulan_h, hari_h):
 CSS_TEMA = """
 .stApp { background: #0b3d2e; }
 [data-testid="stHeader"] { background: transparent; }
+[data-testid="stToolbar"] { display: none !important; }
+[data-testid="stAppDeployButton"] { display: none !important; }
+[data-testid="stToolbar"] a { pointer-events: none; }
 .block-container { padding-top: 2rem; padding-bottom: 3rem; max-width: 720px; }
 
 /* Teks */
