@@ -577,7 +577,6 @@ if pilihan and pilihan[0] == tahun and pilihan[1] == nomor_bulan:
 st.markdown(
     '<div class="footer-tugas">'
     'Diajukan untuk memenuhi project individu PAI<br>'
-    '<b>M. Akbar Hadiansyah P</b><br>'
     'Rekayasa Perangkat Lunak'
     '</div>',
     unsafe_allow_html=True,
