@@ -1,7 +1,8 @@
 import streamlit as st
 from datetime import date, datetime, timedelta
 
-
+# Library kalender Umm al-Qura (pengganti hijri_convert yang hasilnya bergeser 1 hari)
+# Pasang dengan: pip install hijridate
 from hijridate import Hijri, Gregorian
 
 try:
@@ -31,7 +32,6 @@ NAMA_BULAN_MASEHI = [
 
 NAMA_HARI_LENGKAP = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
 NAMA_HARI_SINGKAT = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
-
 
 
 event = {
@@ -88,7 +88,6 @@ event = {
         "Deskripsi contoh kegiatan. Silakan ganti dengan kegiatan yang benar."
     ]
 }
-
 
 
 def tanggal_hari_ini_masehi():
@@ -152,8 +151,6 @@ def event_terdekat(masehi_ini, batas_hari=400):
     return None
 
 
-
-
 @st.dialog("Detail Kegiatan")
 def detail_kegiatan(nama, deskripsi):
     st.header(nama)
@@ -166,12 +163,17 @@ def pilih_tanggal(tahun_h, bulan_h, hari_h):
     st.session_state["tanggal_dipilih"] = (tahun_h, bulan_h, hari_h)
 
 
-# Tema Tampilan dan Splash
+# ==========================================
+#  TAMPILAN (CSS) - sederhana: warna solid, tanpa animasi
+# ==========================================
+# Warna:
+#   latar  #0b3d2e   kartu  #11513a   garis  #1d6b4d
+#   teks   #f2efe4   emas   #e0b13a (dipakai seperlunya)
 
 CSS_TEMA = """
 .stApp { background: #0b3d2e; }
 [data-testid="stHeader"] { background: transparent; }
-.block-container { padding-top: 2rem; max-width: 720px; }
+.block-container { padding-top: 2rem; padding-bottom: 7rem; max-width: 720px; }
 
 /* Teks */
 .stApp .stMarkdown p, .stApp .stMarkdown li { color: #f2efe4; }
@@ -216,6 +218,24 @@ hr { border-color: #1d6b4d !important; }
 }
 
 .keterangan { text-align: center; color: #b9c9bf; font-size: .85rem; margin: 4px 0 10px 0; }
+
+/* Catatan kaki (keterangan tugas) */
+/* Menempel di dasar layar, rata tengah */
+.footer-tugas {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    text-align: center;
+    background: #f2efe4;
+    color: #0b3d2e;
+    font-size: .8rem;
+    line-height: 1.5;
+    padding: 8px 12px;
+    border-top: 3px solid #e0b13a;
+}
+.footer-tugas b { font-size: .9rem; }
 
 /* Tombol umum */
 .stButton button {
@@ -277,6 +297,12 @@ hr { border-color: #1d6b4d !important; }
 
 st.markdown(f"<style>{CSS_TEMA}</style>", unsafe_allow_html=True)
 
+# ==========================================
+# SPLASH SCREEN (tampil sekali saat pertama masuk)
+# ==========================================
+# Layar pembuka berisi bulan sabit, bintang berkelip, dan judul.
+# Menghilang sendiri setelah sekitar 3 detik (diatur oleh animasi CSS
+# "splash-hilang"). Untuk mempercepat/memperlambat, ubah angka 3.2s.
 
 SPLASH_HTML = """
 <style>
@@ -317,6 +343,8 @@ SPLASH_HTML = """
     margin-top: 6px;
     font-size: 0.95rem;
     color: #b9c9bf;
+    text-align: center;
+    padding: 0 16px;
     animation: splash-naik 1s ease 0.8s both;
 }
 
@@ -357,7 +385,7 @@ SPLASH_HTML = """
     <span class="bintang" style="top:8%;  left:55%; font-size:12px; animation-delay:1.7s;">★</span>
     <div class="bulan"></div>
     <div class="judul">Jadwal Ibadah Hijriah</div>
-    <div class="sub">Memuat kalender...</div>
+    <div class="sub">Diajukan untuk memenuhi project individu PAI</div>
 </div>
 """
 
@@ -392,7 +420,9 @@ def css_hari_khusus(tahun, nomor_bulan, jumlah_hari, hari_ini_h, terpilih):
     return "<style>" + "\n".join(aturan) + "</style>"
 
 
-
+# ==========================================
+#  HALAMAN UTAMA
+# ==========================================
 
 tahun_ini, bulan_ini, hari_ini, masehi_ini = hijriah_hari_ini()
 
@@ -440,7 +470,7 @@ if terdekat:
 st.divider()
 
 # ==========================================
-# 8. PILIH BULAN DAN TAHUN KALENDER
+# . PILIH BULAN DAN TAHUN KALENDER
 # ==========================================
 
 st.subheader("Kalender Hijriah")
@@ -469,7 +499,7 @@ nomor_bulan = bulanHijriah.index(bulan) + 1
 st.markdown(f"### {bulan} {tahun} H")
 
 # ==========================================
-# 9. MEMBUAT TAMPILAN KALENDER
+#  MEMBUAT TAMPILAN KALENDER
 # ==========================================
 
 tanggal_awal = awal_bulan(tahun, nomor_bulan)
@@ -520,7 +550,7 @@ st.markdown(
 )
 
 # ==========================================
-# 10. MENAMPILKAN TANGGAL YANG DIPILIH
+#  MENAMPILKAN TANGGAL YANG DIPILIH
 # ==========================================
 
 pilihan = st.session_state.get("tanggal_dipilih")
@@ -546,6 +576,11 @@ if pilihan and pilihan[0] == tahun and pilihan[1] == nomor_bulan:
             '<div class="kartu">Belum ada kegiatan yang terdaftar pada tanggal ini.</div>',
             unsafe_allow_html=True,
         )
+
+# ==========================================
+#  CATATAN KAKI (keterangan tugas)
+# ==========================================
+
 st.markdown(
     '<div class="footer-tugas">'
     'Diajukan untuk memenuhi project individu PAI<br>'
