@@ -546,11 +546,11 @@ if pilihan and pilihan[0] == tahun and pilihan[1] == nomor_bulan:
             '<div class="kartu">Belum ada kegiatan yang terdaftar pada tanggal ini.</div>',
             unsafe_allow_html=True,
         )
-st.markdown(
+    st.markdown(
     '<div class="footer-tugas">'
     'Diajukan untuk memenuhi project individu PAI<br>'
-    '<b>M. Akbar Hadiansyah P</b> · NIM 2613207<br>'
-    'Rekayasa Perangkat Lunak, UPI Kampus Cibiru'
+    '<b>M. Akbar Hadiansyah P</b><br>'
+    'Rekayasa Perangkat Lunak'
     '</div>',
     unsafe_allow_html=True,
 )
