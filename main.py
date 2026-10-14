@@ -173,7 +173,7 @@ def pilih_tanggal(tahun_h, bulan_h, hari_h):
 CSS_TEMA = """
 .stApp { background: #0b3d2e; }
 [data-testid="stHeader"] { background: transparent; }
-.block-container { padding-top: 2rem; padding-bottom: 7rem; max-width: 720px; }
+.block-container { padding-top: 2rem; padding-bottom: 3rem; max-width: 720px; }
 
 /* Teks */
 .stApp .stMarkdown p, .stApp .stMarkdown li { color: #f2efe4; }
@@ -222,20 +222,13 @@ hr { border-color: #1d6b4d !important; }
 /* Catatan kaki (keterangan tugas) */
 /* Menempel di dasar layar, rata tengah */
 .footer-tugas {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
     text-align: center;
-    background: #f2efe4;
-    color: #0b3d2e;
+    color: #b9c9bf;
     font-size: .8rem;
-    line-height: 1.5;
-    padding: 8px 12px;
-    border-top: 3px solid #e0b13a;
+    line-height: 1.6;
+    margin-top: 32px;
 }
-.footer-tugas b { font-size: .9rem; }
+.footer-tugas b { color: #f2efe4; font-size: .9rem; }
 
 /* Tombol umum */
 .stButton button {
