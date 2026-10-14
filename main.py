@@ -176,6 +176,7 @@ CSS_TEMA = """
 [data-testid="stToolbar"] { display: none !important; }
 [data-testid="stAppDeployButton"] { display: none !important; }
 [data-testid="stToolbar"] a { pointer-events: none; }
+[class*="viewerBadge"] { display: none !important; }
 .block-container { padding-top: 2rem; padding-bottom: 3rem; max-width: 720px; }
 
 /* Teks */
