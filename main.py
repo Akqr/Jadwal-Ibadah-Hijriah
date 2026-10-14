@@ -293,6 +293,101 @@ hr { border-color: #1d6b4d !important; }
 
 st.markdown(f"<style>{CSS_TEMA}</style>", unsafe_allow_html=True)
 
+# ==========================================
+# SPLASH SCREEN (tampil sekali saat pertama masuk)
+# ==========================================
+# Layar pembuka berisi bulan sabit, bintang berkelip, dan judul.
+# Menghilang sendiri setelah sekitar 3 detik (diatur oleh animasi CSS
+# "splash-hilang"). Untuk mempercepat/memperlambat, ubah angka 3.2s.
+
+SPLASH_HTML = """
+<style>
+.splash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99999999;
+    background: #0b3d2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: splash-hilang 3.2s ease forwards;
+}
+@keyframes splash-hilang {
+    0%, 78% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* Bulan sabit: lingkaran transparan dengan bayangan bergeser */
+.splash .bulan {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 16px;
+    box-shadow: 16px 6px 0 0 #e0b13a;
+    animation: splash-muncul 1s ease both;
+}
+.splash .judul {
+    margin-top: 28px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #f2efe4;
+    text-align: center;
+    animation: splash-naik 1s ease 0.4s both;
+}
+.splash .sub {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: #b9c9bf;
+    animation: splash-naik 1s ease 0.8s both;
+}
+
+/* Bintang kuning berkelip */
+.splash .bintang {
+    position: absolute;
+    color: #e0b13a;
+    animation: splash-kelip 2s ease-in-out infinite;
+}
+
+@keyframes splash-muncul {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes splash-naik {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes splash-kelip {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Kalau HP diatur "kurangi animasi", splash dilewati */
+@media (prefers-reduced-motion: reduce) {
+    .splash { display: none; }
+}
+</style>
+
+<div class="splash">
+    <span class="bintang" style="top:12%; left:15%; font-size:18px; animation-delay:0s;">★</span>
+    <span class="bintang" style="top:20%; left:80%; font-size:26px; animation-delay:0.5s;">★</span>
+    <span class="bintang" style="top:40%; left:5%;  font-size:12px; animation-delay:0.3s;">★</span>
+    <span class="bintang" style="top:35%; left:92%; font-size:14px; animation-delay:1.2s;">★</span>
+    <span class="bintang" style="top:70%; left:10%; font-size:14px; animation-delay:1s;">★</span>
+    <span class="bintang" style="top:78%; left:85%; font-size:20px; animation-delay:1.5s;">★</span>
+    <span class="bintang" style="top:88%; left:45%; font-size:16px; animation-delay:0.8s;">★</span>
+    <span class="bintang" style="top:8%;  left:55%; font-size:12px; animation-delay:1.7s;">★</span>
+    <div class="bulan"></div>
+    <div class="judul">Jadwal Ibadah Hijriah</div>
+    <div class="sub">Memuat kalender...</div>
+</div>
+"""
+
+# Tampilkan hanya di kunjungan pertama (tidak muncul lagi saat klik tanggal)
+if "splash_selesai" not in st.session_state:
+    st.session_state["splash_selesai"] = True
+    st.markdown(SPLASH_HTML, unsafe_allow_html=True)
+
 
 def css_hari_khusus(tahun, nomor_bulan, jumlah_hari, hari_ini_h, terpilih):
     """CSS tambahan: bintang kecil di hari ber-event, emas di hari ini, garis di tanggal terpilih."""
