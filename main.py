@@ -171,6 +171,12 @@ def detail_kegiatan(nama, deskripsi):
     st.write(deskripsi)
 
 
+def pilih_tanggal(tahun_h, bulan_h, hari_h):
+    """Dipanggil lewat on_click: berjalan SEBELUM halaman digambar ulang,
+    jadi tanggal terpilih langsung benar di klik yang sama."""
+    st.session_state["tanggal_dipilih"] = (tahun_h, bulan_h, hari_h)
+
+
 # ==========================================
 # 6. TAMPILAN (CSS) - sederhana: warna solid, tanpa animasi
 # ==========================================
@@ -429,13 +435,13 @@ with st.container(key="calendar_grid"):
         for i, hari in enumerate(daftar_tanggal[awal:awal + 7]):
             with kolom[i]:
                 if hari is not None:
-                    if st.button(
+                    st.button(
                         str(hari),
                         key=f"tgl_{tahun}_{nomor_bulan}_{hari}",
                         use_container_width=True,
-                    ):
-                        st.session_state["tanggal_dipilih"] = (tahun, nomor_bulan, hari)
-                        hari_terpilih = hari
+                        on_click=pilih_tanggal,
+                        args=(tahun, nomor_bulan, hari),
+                    )
 
 st.markdown(
     '<div class="keterangan">★ = ada kegiatan &nbsp;|&nbsp; kotak kuning = hari ini</div>',
