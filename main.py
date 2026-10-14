@@ -1,8 +1,7 @@
 import streamlit as st
 from datetime import date, datetime, timedelta
 
-# Library kalender Umm al-Qura (pengganti hijri_convert yang hasilnya bergeser 1 hari)
-# Pasang dengan: pip install hijridate
+
 from hijridate import Hijri, Gregorian
 
 try:
@@ -17,9 +16,7 @@ st.set_page_config(
     layout="centered",
 )
 
-# ==========================================
-# 1. DATA NAMA BULAN & HARI
-# ==========================================
+
 
 bulanHijriah = [
     "Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir",
@@ -35,9 +32,7 @@ NAMA_BULAN_MASEHI = [
 NAMA_HARI_LENGKAP = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
 NAMA_HARI_SINGKAT = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
 
-# ==========================================
-# 2. DATA EVENT IBADAH
-# ==========================================
+
 
 event = {
     "1 Muharram": [
@@ -94,9 +89,7 @@ event = {
     ]
 }
 
-# ==========================================
-# 3. FUNGSI KONVERSI TANGGAL
-# ==========================================
+
 
 def tanggal_hari_ini_masehi():
     """Tanggal hari ini menurut WIB (bukan jam server)."""
@@ -128,9 +121,7 @@ def format_masehi(tgl):
     return f"{hari}, {tgl.day} {NAMA_BULAN_MASEHI[tgl.month - 1]} {tgl.year}"
 
 
-# ==========================================
-# 4. MENCARI EVENT
-# ==========================================
+
 
 def cek_event(hari, nomor_bulan):
     kunci = f"{hari} {bulanHijriah[nomor_bulan - 1]}"
@@ -161,9 +152,7 @@ def event_terdekat(masehi_ini, batas_hari=400):
     return None
 
 
-# ==========================================
-# 5. DIALOG DETAIL KEGIATAN
-# ==========================================
+
 
 @st.dialog("Detail Kegiatan")
 def detail_kegiatan(nama, deskripsi):
@@ -177,12 +166,7 @@ def pilih_tanggal(tahun_h, bulan_h, hari_h):
     st.session_state["tanggal_dipilih"] = (tahun_h, bulan_h, hari_h)
 
 
-# ==========================================
-# 6. TAMPILAN (CSS) - sederhana: warna solid, tanpa animasi
-# ==========================================
-# Warna:
-#   latar  #0b3d2e   kartu  #11513a   garis  #1d6b4d
-#   teks   #f2efe4   emas   #e0b13a (dipakai seperlunya)
+
 
 CSS_TEMA = """
 .stApp { background: #0b3d2e; }
@@ -293,12 +277,6 @@ hr { border-color: #1d6b4d !important; }
 
 st.markdown(f"<style>{CSS_TEMA}</style>", unsafe_allow_html=True)
 
-# ==========================================
-# SPLASH SCREEN (tampil sekali saat pertama masuk)
-# ==========================================
-# Layar pembuka berisi bulan sabit, bintang berkelip, dan judul.
-# Menghilang sendiri setelah sekitar 3 detik (diatur oleh animasi CSS
-# "splash-hilang"). Untuk mempercepat/memperlambat, ubah angka 3.2s.
 
 SPLASH_HTML = """
 <style>
@@ -414,9 +392,7 @@ def css_hari_khusus(tahun, nomor_bulan, jumlah_hari, hari_ini_h, terpilih):
     return "<style>" + "\n".join(aturan) + "</style>"
 
 
-# ==========================================
-# 7. HALAMAN UTAMA
-# ==========================================
+
 
 tahun_ini, bulan_ini, hari_ini, masehi_ini = hijriah_hari_ini()
 
