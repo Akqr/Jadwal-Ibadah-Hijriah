@@ -166,7 +166,7 @@ def pilih_tanggal(tahun_h, bulan_h, hari_h):
     st.session_state["tanggal_dipilih"] = (tahun_h, bulan_h, hari_h)
 
 
-
+# Tema Tampilan dan Splash
 
 CSS_TEMA = """
 .stApp { background: #0b3d2e; }
@@ -546,3 +546,11 @@ if pilihan and pilihan[0] == tahun and pilihan[1] == nomor_bulan:
             '<div class="kartu">Belum ada kegiatan yang terdaftar pada tanggal ini.</div>',
             unsafe_allow_html=True,
         )
+st.markdown(
+    '<div class="footer-tugas">'
+    'Diajukan untuk memenuhi project individu PAI<br>'
+    '<b>M. Akbar Hadiansyah P</b> · NIM 2613207<br>'
+    'Rekayasa Perangkat Lunak, UPI Kampus Cibiru'
+    '</div>',
+    unsafe_allow_html=True,
+)
